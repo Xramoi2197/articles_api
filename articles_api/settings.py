@@ -13,9 +13,12 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 
+from config import load_config
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+conf = load_config(BASE_DIR / "config" / "web_app.ini")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -96,10 +99,11 @@ WSGI_APPLICATION = 'articles_api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST': '',
-        'NAME': 'articles_app',
-        'USER': '',
-        'PASSWOD': '',
+        'HOST': conf.web_app.db_host,
+        'PORT': conf.web_app.db_port,
+        'NAME': conf.web_app.db_name,
+        'USER': conf.web_app.db_user,
+        'PASSWORD': conf.web_app.db_pass,
     }
 }
 
