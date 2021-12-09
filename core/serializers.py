@@ -4,8 +4,12 @@ from django.contrib.auth.models import User
 
 
 class ArticleSerializer(serializers.ModelSerializer):
-    user = serializers.SlugRelatedField(slug_field="username", queryset=User.objects.all())
-    tags = serializers.SlugRelatedField(slug_field="tag_name", queryset=Tag.objects.all(), many=True)
+    user = serializers.SlugRelatedField(
+        slug_field="username", queryset=User.objects.all()
+    )
+    tags = serializers.SlugRelatedField(
+        slug_field="tag_name", queryset=Tag.objects.all(), many=True
+    )
 
     class Meta:
         model = Article
