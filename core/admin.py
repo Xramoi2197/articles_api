@@ -8,6 +8,11 @@ class TagsInline(admin.StackedInline):
     extra = 1
 
 
+class TagAdmin(admin.ModelAdmin):
+    search_fields = ["tag_name"]
+    list_display = ("id", "tag_name")
+
+
 class ArticleAdmin(admin.ModelAdmin):
     search_fields = ["title", "url"]
     list_display = (
@@ -26,3 +31,4 @@ class ArticleAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Article, ArticleAdmin)
+admin.site.register(Tag, TagAdmin)
