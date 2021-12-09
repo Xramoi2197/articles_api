@@ -10,10 +10,3 @@ from .models import Article
 class ArticleViewSet(viewsets.ModelViewSet):
     serializer_class = ArticleSerializer
     queryset = Article.objects.all()
-
-    @action(detail=True)
-    def change_json(self, request, pk=None):
-        data = Article.objects.all()
-        serializer = ArticleSerializer(instance=data, many=True)
-        print(serializer.data)
-        return Response(None)
