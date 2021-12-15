@@ -20,7 +20,6 @@ class ArticleViewSet(viewsets.ModelViewSet):
 class ArticleByTagDetailView(generics.ListAPIView):
     serializer_class = ArticleSerializer
     pagination_class = ArticlePagination
-    slug_field = 'tag_name'
 
     def get_queryset(self):
         tag_name = self.kwargs['tag_name'].lower()
