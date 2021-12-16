@@ -1,6 +1,16 @@
+from django.db import models
 from rest_framework import serializers
 from .models import Article, Tag
 from django.contrib.auth.models import User
+
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = (
+            "id",
+            "tag_name",
+        )
 
 
 class ArticleSerializer(serializers.ModelSerializer):
