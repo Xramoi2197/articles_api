@@ -21,7 +21,6 @@ class TagPagination(pagination.PageNumberPagination):
 # ViewSets classes
 class ArticleViewSet(viewsets.ModelViewSet):
     serializer_class = ArticleSerializer
-    queryset = Article.objects.all()
     pagination_class = ArticlePagination
     ordering_fields = [
         "create_date",
@@ -36,6 +35,17 @@ class ArticleViewSet(viewsets.ModelViewSet):
         filters.OrderingFilter,
     ]
 
+    def get_queryset(self):
+        queryset = Article.objects.all()
+        tag_name = self.request.query_params.get("tag").lower()
+        if tag_name is not None:
+            try:
+                tag = Tag.objects.get(tag_name=tag_name)
+                queryset = queryset.filter(tags=tag)
+            except:
+                queryset = queryset.none()
+        return queryset
+
 
 class TagViewSet(viewsets.ModelViewSet):
     serializer_class = TagSerializer
@@ -45,14 +55,3 @@ class TagViewSet(viewsets.ModelViewSet):
     filter_backends = [
         filters.SearchFilter,
     ]
-
-
-# ListView classes
-class ArticleByTagDetailView(generics.ListAPIView):
-    serializer_class = ArticleSerializer
-    pagination_class = ArticlePagination
-
-    def get_queryset(self):
-        tag_name = self.kwargs["tag_name"].lower()
-        tag = Tag.objects.get(tag_name=tag_name)
-        return Article.objects.filter(tags=tag)
