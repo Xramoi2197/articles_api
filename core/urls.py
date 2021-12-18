@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import ArticleViewSet, ArticleByTagDetailView, TagViewSet
+from .views import ArticleViewSet, TagViewSet
 
 router = DefaultRouter()
 router.register("articles", ArticleViewSet, basename="articles")
