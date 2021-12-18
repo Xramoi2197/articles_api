@@ -7,7 +7,6 @@ from .models import Article, Tag
 class ArticlePagination(pagination.PageNumberPagination):
     page_size = 10
     page_size_query_param = "page_size"
-    ordering = "create_date"
     max_page_size = 50
 
 
@@ -36,11 +35,11 @@ class ArticleViewSet(viewsets.ModelViewSet):
     ]
 
     def get_queryset(self):
-        queryset = Article.objects.all()
-        tag_name = self.request.query_params.get("tag").lower()
+        queryset = Article.objects.all().order_by("create_date")
+        tag_name = self.request.query_params.get("tag")
         if tag_name is not None:
             try:
-                tag = Tag.objects.get(tag_name=tag_name)
+                tag = Tag.objects.get(tag_name=tag_name.lower())
                 queryset = queryset.filter(tags=tag)
             except:
                 queryset = queryset.none()
